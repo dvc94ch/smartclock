@@ -36,8 +36,8 @@ class IConfigurablePlugin(IPlugin):
                     "Failed to load settings: %s" % e)
         else:
             logging.getLogger(__name__).info("Using default settings.")
-        self.settings = self.default_settings
-        self._save_settings()
+            self.settings = self.default_settings
+            self._save_settings()
 
     def _save_settings(self):
         """Writes settings dict to conf file if it's not empty."""

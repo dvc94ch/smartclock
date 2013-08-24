@@ -24,7 +24,7 @@ setup(
     url='craven.ch',
     license=open('smartclock/LICENSE.txt').read(),
     packages=find_packages(),
-    package_data={'': ['*.txt', '*.md', 'setup.cfg', '*.plugin']},
+    package_data={'': ['*.txt', '*.md']},
     long_description=open('smartclock/README.md').read(),
     install_requires=[
         'apscheduler', 'python-daemon', 'gdata', 'rpio', 'yapsy'],

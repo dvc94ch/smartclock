@@ -23,7 +23,7 @@ class BedsensorHuePlugin(IBedsensorPlugin):
     default_settings = {
         'ip': '192.168.1.57',
         'username': '1b3cbc1e720be71e4cf232137e820b',
-        'rcl-threshold': 3000,
+        'rcl-threshold': 1500,
         'off-group': 0,
         'on-group': 'Bedroom'
     }
