@@ -1,0 +1,7 @@
+*.pyc
+*.coverage
+*.log
+*.egg-info
+smartclock/plugins.conf
+dist/
+MANIFEST

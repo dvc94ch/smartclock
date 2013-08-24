@@ -1,0 +1,3 @@
+include smartclock/setup.cfg
+recursive-include smartclock *.txt *.md *.py *.plugin
+recursive-include smartclock/system *

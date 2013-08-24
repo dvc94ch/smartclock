@@ -1,0 +1,20 @@
+eeschema (2013-07-07 BZR 4022)-stable  >> Creation date: 30 Jul 13 2:56:49 PM
+#Cmp ( order = Reference )
+| J1         JACK_STEREO 
+| LCD1       LCD_2X16    
+| R1         1K          
+| R2         56R         
+| RPi1       RASPBERRY_IO
+| T1         BC548B-NPN-TO92-EBC
+#End Cmp
+
+#Cmp ( order = Value )
+| JACK_STEREO  J1        
+| LCD_2X16     LCD1      
+| 56R          R2        
+| 1K           R1        
+| RASPBERRY_IO RPi1      
+| BC548B-NPN-TO92-EBC T1        
+#End Cmp
+
+#End List

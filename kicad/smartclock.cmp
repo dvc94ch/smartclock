@@ -1,0 +1,87 @@
+Cmp-Mod V01 Created by CvPcb (2013-07-07 BZR 4022)-stable date = 08 Aug 13 5:18:00 PM
+
+BeginCmp
+TimeStamp = /51FA43A4;
+Reference = C1;
+ValeurCmp = 1uF;
+IdModule  = C1V5;
+EndCmp
+
+BeginCmp
+TimeStamp = /51F76B78;
+Reference = J1;
+ValeurCmp = JACK_STEREO;
+IdModule  = 3.5MM_STEREO_CONRAD;
+EndCmp
+
+BeginCmp
+TimeStamp = /51F59038;
+Reference = LCD1;
+ValeurCmp = LCD_2X16;
+IdModule  = LCD_BLUELINE_SIDE_WITH_SPACE;
+EndCmp
+
+BeginCmp
+TimeStamp = /5203B067;
+Reference = P1;
+ValeurCmp = 10K;
+IdModule  = RV2X4;
+EndCmp
+
+BeginCmp
+TimeStamp = /51F59655;
+Reference = R1;
+ValeurCmp = 1K;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51F6953A;
+Reference = R2;
+ValeurCmp = 56R;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51FA430B;
+Reference = R3;
+ValeurCmp = 2K2;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51FA3706;
+Reference = R4;
+ValeurCmp = PHOTORESISTOR;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /5203B689;
+Reference = R5;
+ValeurCmp = 10K;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /5203B698;
+Reference = R6;
+ValeurCmp = 10K;
+IdModule  = R1;
+EndCmp
+
+BeginCmp
+TimeStamp = /51F59113;
+Reference = RPi1;
+ValeurCmp = RASPBERRY_IO;
+IdModule  = pin_array_13x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /51F593C5;
+Reference = T1;
+ValeurCmp = BC548B-NPN-TO92-EBC;
+IdModule  = TO92-EBC;
+EndCmp
+
+EndListe
