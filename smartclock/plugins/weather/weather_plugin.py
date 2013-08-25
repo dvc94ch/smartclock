@@ -21,7 +21,7 @@ from smartclock.plugins.weather import pywapi
 class WeatherPlugin(IDisplayPlugin):
 
     default_settings = {
-        'location_name': u'Emmenbr\xc3cke',
+        'location_name': u'Emmenbr\xf5cke',
         'location_id': 'SZXX0011'
     }
 
