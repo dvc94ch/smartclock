@@ -42,30 +42,33 @@ class TravelTimePlugin(IEventProcessorPlugin, PluginMasterMixin):
         except Exception:
             return
 
+    def parse_location_and_travel_mode(self, location):
+        travel_mode = self.settings['default-travelmode']
+        if 'TRANSIT' in location:
+            travel_mode = 'TRANSIT'
+        elif 'DRIVING' in location:
+            travel_mode = 'DRIVING'
+        elif 'BICYCLING' in location:
+            travel_mode = 'BICYCLING'
+        elif 'WALKING' in location:
+            travel_mode = 'WALKING'
+
+        location = ' '.join(location.replace(travel_mode, '').split())
+        return (location, travel_mode)
+
     def process(self, event):
         if event.location is None:
             return
 
-        travel_mode = self.settings['default-travelmode']
-        if 'TRANSIT' in event.location:
-            travel_mode = 'TRANSIT'
-        elif 'DRIVING' in event.location:
-            travel_mode = 'DRIVING'
-        elif 'BICYCLING' in event.location:
-            travel_mode = 'BICYCLING'
-        elif 'WALKING' in event.location:
-            travel_mode = 'WALKING'
-
-        event.location = ' '.join(
-            event.location.replace(travel_mode, '').split())
-        event.travel_mode = travel_mode
+        location, travel_mode = parse_location_and_travel_mode(event.location)
 
         plugin = self.get_travel_plugin(travel_mode)
+
         if plugin is not None:
             departure_time = plugin.get_departure_time(
                 travel_mode=travel_mode, arrival_time=event.start_time,
                 origin=self.settings['home-address'],
-                destination=event.location)
+                destination=location)
 
             if departure_time is not None:
                 event.departure_time = departure_time

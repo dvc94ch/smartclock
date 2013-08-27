@@ -16,6 +16,12 @@ class TransportOpendataPluginTestCase(PluginTestCase):
         self.assertIsInstance(
             self.plugin.get_travel_plugin('TRANSIT'), ITravelTimePlugin)
 
+    def test_parse_location_and_travel_mode(self):
+        location, travel_mode = self.plugin.parse_location_and_travel_mode(
+            'Hauptstrasse 32 DRIVING Reiden 6260')
+        self.assertEquals(travel_mode, 'DRIVING')
+        self.assertEquals(location, 'Hauptstrasse 32 Reiden 6260')
+
     def process(self):
         event = Event(
             name="some event", location="Ballwil",
