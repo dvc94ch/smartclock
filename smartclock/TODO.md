@@ -1,6 +1,5 @@
-feature: external geocoding
-feature: walkingtime calculation with: /\x + /\y * 1.4m/s
-bug: transportdata, doesn't take address as param / enable process test traveltime plugin
+fix bug with lights going on for no reason
+refractor main alarmcode to alarm manager
 
 
 [0.2.0]

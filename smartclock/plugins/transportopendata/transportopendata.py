@@ -20,6 +20,9 @@ class Location(object):
         self.coordinates = Coordinates(kwargs['coordinate'])
         self.distance = kwargs.get('distance', None)
 
+    def get_coordinates(self):
+        return self.coordinates.get_coordinates()
+
 
 class Coordinates(object):
     """ type: The type of the given coordinate.
@@ -28,9 +31,12 @@ class Coordinates(object):
     """
 
     def __init__(self, kwargs):
-        self.latitude = kwargs['x']
-        self.longitude = kwargs['y']
+        self.lng = kwargs['x']
+        self.lat = kwargs['y']
         self.type = kwargs['type']
+
+    def get_coordinates(self):
+        return (self.lat, self.lng)
 
 
 class TransportOpendata(object):

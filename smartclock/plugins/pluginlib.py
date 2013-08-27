@@ -2,6 +2,7 @@ import ast
 import logging
 from datetime import timedelta
 
+from geopy import distance, geocoders
 from yapsy.IPlugin import IPlugin
 
 from smartclock.hardware.bedsensor import Bedsensor
@@ -67,6 +68,36 @@ class IEventProcessorPlugin(IConfigurablePlugin):
 
 class ITravelTimePlugin(IConfigurablePlugin):
     """Base class for travel_time/departure_time calculators."""
+
+    def calculate_walking_time(self, origin, destination):
+        """Calculates walking time by multiplying the average walking speed
+        of 1.4m/s with the manhattan distance of two coordinates. A manhattan
+        distance is calculated by adding the x and y differences which should
+        be a much better approximation to the real distance than the euclidian
+        distance x^2 + y^2 = d^2. For more information google taxicab geometry.
+        """
+
+        origin_lat, origin_lng = origin
+        dst_lat, dst_lng = destination
+        avrg_lat = (origin_lat + dst_lat) / 2
+        avrg_lng = (origin_lng + dst_lng) / 2
+
+        dist_lat = distance.distance(
+            (origin_lat, avrg_lng), (dst_lat, avrg_lng)).m
+        dist_lng = distance.distance(
+            (avrg_lat, origin_lng), (avrg_lat, dst_lng)).m
+
+        walking_time = (dist_lat + dist_lng) / 1.4
+        return timedelta(seconds=walking_time)
+
+    def geocode(self, address):
+        """Geocodes a string representation of a place or address to a
+        (lat, lng) tuple.
+        """
+
+        geocoder = geocoders.GoogleV3()
+        _, (lat, lng) = geocoder.geocode(address)
+        return (lat, lng)
 
     def get_departure_time(self, travel_mode, arrival_time, origin,
                            destination):

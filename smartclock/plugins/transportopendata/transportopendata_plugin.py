@@ -29,12 +29,26 @@ class TransportOpendataPlugin(ITravelTimePlugin):
     def get_departure_time(self, travel_mode, arrival_time,
                            origin, destination):
         try:
-            station_origin = self.opendata.get_locations(query=origin)[0].uid
-            station_dst = self.opendata.get_locations(query=destination)[0].uid
+            # get train stations nearest to origin and destination
+            station_origin = self.opendata.get_locations(query=origin)[0]
+            station_dst = self.opendata.get_locations(query=destination)[0]
+
+            # calculate arrival time based on walking time from destination
+            # train station to destination
+            walking_time = self.calculate_walking_time(
+                station_dst.get_coordinates(), self.geocode(destination))
+            arrival_time = arrival_time - walking_time
+
+            # get connection and parse departure time
             departure_time = self.opendata.get_connections(
-                origin=station_origin, destination=station_dst, limit=1,
-                date=arrival_time.date(), time=arrival_time.time(),
+                origin=station_origin.uid, destination=station_dst.uid,
+                limit=1, date=arrival_time.date(), time=arrival_time.time(),
                 isArrivalTime=True)['connections'][0]['from']['departure']
-            return datetime.strptime(departure_time[:-5], "%Y-%m-%dT%H:%M:%S")
+            departure_time = datetime.strptime(
+                departure_time[:-5], "%Y-%m-%dT%H:%M:%S")
+
+            # walking time to train station from origin is part of the
+            # reminder.
+            return departure_time
         except Exception as e:
             logging.getLogger(__name__).info(e)

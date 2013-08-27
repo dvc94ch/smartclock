@@ -20,7 +20,7 @@ class TravelTimePlugin(IEventProcessorPlugin, PluginMasterMixin):
     hear the alarm anyway.
     """
 
-    default_settings = {  # BICYCLING, DRIVING, TRANSIT, WALKING
+    default_settings = {
         'default-travelmode': 'TRANSIT',
         'home-address': 'Hauptstrasse 32 6260 Reiden',
         'plugin-mapping': {

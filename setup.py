@@ -27,7 +27,7 @@ setup(
     package_data={'': ['*.txt', '*.md']},
     long_description=open('smartclock/README.md').read(),
     install_requires=[
-        'apscheduler', 'python-daemon', 'gdata', 'rpio', 'yapsy'],
+        'apscheduler', 'gdata', 'geopy', 'python-daemon', 'rpio', 'yapsy'],
     data_files=[('/etc/init.d', ['smartclock/system/smartclock']),
                 ('/etc/default', ['smartclock/system/watchdog']),
                 ('/etc', ['smartclock/system/watchdog.conf'])],

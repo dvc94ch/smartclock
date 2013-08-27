@@ -3,11 +3,30 @@ from datetime import datetime, timedelta
 
 from mock import MagicMock
 
-from smartclock.plugins.pluginlib import Event, IAlarmPlugin
+from smartclock.plugins.pluginlib import Event, IAlarmPlugin, ITravelTimePlugin
+
+
+class TestITravelTimePlugin(TestCase):
+
+    def setUp(self):
+        self.plugin = ITravelTimePlugin()
+
+    def test_calculate_walking_time(self):
+        origin = (47.2454078, 7.9716352)  # Hauptstrasse 32 Reiden 6260
+        destination = (47.241445, 7.9688353)  # Bahnhofstrasse 12 Reiden 6260
+        walking_time = self.plugin.calculate_walking_time(origin, destination)
+        self.assertTrue(walking_time < timedelta(minutes=10))
+
+    def test_geocode(self):
+        lat, lng = self.plugin.geocode('Hauptstrasse 32 Reiden 6260')
+        self.assertTrue(lat > 45.0 and lat < 48.0)
+        self.assertTrue(lng > 7.0 and lng < 10.0)
 
 
 class TestIAlarmPlugin(TestCase):
-    # pylint: disable-msg=W0212
+
+    # pylint: disable-msg=protected-access
+
     def setUp(self):
         self.plugin = IAlarmPlugin()
         self.plugin._play = MagicMock()
