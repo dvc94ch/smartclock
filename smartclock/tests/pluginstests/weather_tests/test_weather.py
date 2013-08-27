@@ -11,8 +11,6 @@ class WeatherPluginTestCase(PluginTestCase):
     }
 
     def test_update_cache(self):
-        if self.plugin.cache is None:
-            self.plugin.update_cache()
         self.assertIsNot(
             self.plugin.cache, None, "Weather cache wasn't updated.")
         self.assertIsInstance(
