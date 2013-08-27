@@ -1,5 +1,4 @@
 fix bug with lights going on for no reason
-refractor main alarmcode to alarm manager
 
 
 [0.2.0]
