@@ -4,7 +4,7 @@ from smartclock.plugins.pluginlib import ITravelTimePlugin, Event
 from smartclock.tests.pluginstests.plugintestcase import PluginTestCase
 
 
-class TransportOpendataPluginTestCase(PluginTestCase):
+class TravelTimePluginTestCase(PluginTestCase):
 
     settings = {
         'name': 'Travel Time Plugin',
@@ -22,7 +22,7 @@ class TransportOpendataPluginTestCase(PluginTestCase):
         self.assertEquals(travel_mode, 'DRIVING')
         self.assertEquals(location, 'Hauptstrasse 32 Reiden 6260')
 
-    def process(self):
+    def test_process(self):
         event = Event(
             name="some event", location="Ballwil",
             start_time=datetime.combine(date.today(), time(hour=9)))
