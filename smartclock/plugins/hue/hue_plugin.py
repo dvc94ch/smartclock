@@ -55,6 +55,6 @@ class BedsensorHuePlugin(IBedsensorPlugin):
         if state == self.PRESSED:
             logging.getLogger(__name__).info("Turning lights off.")
             self.bridge.set_group(self.settings['off-group'], 'on', False)
-        elif self.get_brightness():
-            logging.getLogger(__name__).info("Turning lights on.")
-            self.bridge.set_group(self.settings['on-group'], 'on', True)
+        # elif self.get_brightness():
+        #    logging.getLogger(__name__).info("Turning lights on.")
+        #    self.bridge.set_group(self.settings['on-group'], 'on', True)
