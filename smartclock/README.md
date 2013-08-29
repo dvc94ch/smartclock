@@ -1,18 +1,15 @@
 [Smart Alarmclock:]
 
-This is a smart alarmclock that allows integration with your calendar
-software and home automation system through plugins. Plugins can collect
-events automatically from calendars or manually by rules like MO-FR 8:00AM.
-They can process events to modify travel_time, departure_time and reminder.
-Also plugins can write to the lcd, implement custom alarms to integrate
-with home cinema systems and register callbacks to the bedsensor to turn
-the lights off when going to bed.
+Sets alarms automatically by looking at your calendar, detects if you're in
+bed and makes sure you really get up. It has a very simple and extensible
+plugin system which allows you to integrate it with different calendar
+providers, your home theater system and even your home lighting system.
 
 
-Install on a Raspberry Pi:
+[Install on a Raspberry Pi:]
 
-git clone ssh://git@git.craven.ch/~/smartclock.git
+git clone https://github.com/dvc94ch/smartclock.git
 cd smartclock
 python setup.py sdist
-pip install dist/*.tar.gz
-/etc/rc.local append "service smartclock start"
+sudo pip install dist/*.tar.gz
+sudo echo "service smartclock start" >> /etc/rc.local

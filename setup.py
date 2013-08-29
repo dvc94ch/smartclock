@@ -16,9 +16,8 @@ class install(_install):
 setup(
     name='SmartClock',
     version='0.1.0',
-    description='''This is a smart alarmclock that allows integration with
-                your calendar software and home automation system through
-                plugins.''',
+    description='''Sets alarms automatically by looking at your calendar,
+                detects if you're in bed and makes sure you really get up.''',
     author='David Craven',
     author_email='david@craven.ch',
     url='craven.ch',
