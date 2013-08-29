@@ -25,30 +25,30 @@ class TransportOpendataPlugin(ITravelTimePlugin):
     def get_travel_modes(self):
         return ['TRANSIT']
 
-    def get_train_stations(self, lat, lng):
+    def get_train_stations(self, coordinates):
+        lat, lng = coordinates
         for station in self.opendata.get_locations(x=lat, y=lng):
             if not ',' in station.name or 'Bahnhof' in station.name:
                 yield station
 
-    def get_nearest_train_station(self, lat, lng):
-        stations = [station for station in self.get_train_stations(lat, lng)]
+    def get_nearest_train_station(self, coordinates):
+        stations = [
+            station for station in self.get_train_stations(coordinates)]
         for station in stations:
             station.distance = self.distance(
-                station.get_coordinates(), (lat, lng))
+                station.get_coordinates(), coordinates)
         logging.getLogger(__name__).debug(stations)
         return sorted(stations, key=lambda station: station.distance)[0]
 
     def get_departure_time(self, travel_mode, arrival_time,
                            origin, destination):
         try:
-            origin_lat, origin_lng = self.geocode(origin)
-            dst_lat, dst_lng = self.geocode(destination)
+            origin = self.geocode(origin)
+            destination = self.geocode(destination)
 
             # get train stations nearest to origin and destination
-            station_origin = self.get_nearest_train_station(
-                lat=origin_lat, lng=origin_lng)
-            station_dst = self.get_nearest_train_station(
-                lat=dst_lat, lng=dst_lng)
+            station_origin = self.get_nearest_train_station(origin)
+            station_dst = self.get_nearest_train_station(destination)
 
             logging.getLogger(__name__).debug(
                 "station origin: %s", station_origin)
@@ -58,7 +58,7 @@ class TransportOpendataPlugin(ITravelTimePlugin):
             # calculate arrival time based on walking time from destination
             # train station to destination
             walking_time = self.calculate_walking_time(
-                station_dst.get_coordinates(), (dst_lat, dst_lng))
+                station_dst.get_coordinates(), destination)
             arrival_time = arrival_time - walking_time
 
             logging.getLogger(__name__).debug("arrival time: %s", arrival_time)
