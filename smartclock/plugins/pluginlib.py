@@ -82,13 +82,16 @@ class ITravelTimePlugin(IConfigurablePlugin):
         avrg_lat = (origin_lat + dst_lat) / 2
         avrg_lng = (origin_lng + dst_lng) / 2
 
-        dist_lat = distance.distance(
-            (origin_lat, avrg_lng), (dst_lat, avrg_lng)).m
-        dist_lng = distance.distance(
-            (avrg_lat, origin_lng), (avrg_lat, dst_lng)).m
+        dist_lat = self.distance(
+            (origin_lat, avrg_lng), (dst_lat, avrg_lng))
+        dist_lng = self.distance(
+            (avrg_lat, origin_lng), (avrg_lat, dst_lng))
 
         walking_time = (dist_lat + dist_lng) / 1.4
         return timedelta(seconds=walking_time)
+
+    def distance(self, origin, destination):
+        return distance.distance(origin, destination).m
 
     def geocode(self, address):
         """Geocodes a string representation of a place or address to a

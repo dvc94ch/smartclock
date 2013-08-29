@@ -16,8 +16,8 @@ class TravelTimePluginTestCase(PluginTestCase):
         self.assertIsInstance(
             self.plugin.get_travel_plugin('TRANSIT'), ITravelTimePlugin)
 
-    def test_parse_location_and_travel_mode(self):
-        location, travel_mode = self.plugin.parse_location_and_travel_mode(
+    def test_parse_travel_mode(self):
+        location, travel_mode = self.plugin.parse_travel_mode(
             'Hauptstrasse 32 DRIVING Reiden 6260')
         self.assertEquals(travel_mode, 'DRIVING')
         self.assertEquals(location, 'Hauptstrasse 32 Reiden 6260')
@@ -28,4 +28,4 @@ class TravelTimePluginTestCase(PluginTestCase):
             start_time=datetime.combine(date.today(), time(hour=9)))
         self.plugin.process(event)
         self.assertEqual(event.departure_time, datetime.combine(
-            date.today(), time(hour=7, minute=50)))
+            date.today(), time(hour=7, minute=38)))

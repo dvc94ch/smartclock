@@ -2,6 +2,7 @@ import json
 import logging
 import urllib
 import urllib2
+from datetime import datetime
 
 
 class Location(object):
@@ -23,6 +24,12 @@ class Location(object):
     def get_coordinates(self):
         return self.coordinates.get_coordinates()
 
+    def __repr__(self):
+        return (
+            u"uid: %s, name: %s, score: %s, coordinates: (%s), distance: %s" %
+            (self.uid, self.name, self.score, self.coordinates, self.distance)
+        ).encode('ascii', 'ignore')
+
 
 class Coordinates(object):
     """ type: The type of the given coordinate.
@@ -31,17 +38,21 @@ class Coordinates(object):
     """
 
     def __init__(self, kwargs):
-        self.lng = kwargs['x']
-        self.lat = kwargs['y']
+        self.lat = kwargs['x']
+        self.lng = kwargs['y']
         self.type = kwargs['type']
 
     def get_coordinates(self):
         return (self.lat, self.lng)
 
+    def __repr__(self):
+        return (u"lat: %s, lng: %s" % (self.lat, self.lng)).encode(
+            'ascii', 'ignore')
+
 
 class TransportOpendata(object):
 
-    def get_locations(self, query, **kwargs):
+    def get_locations(self, **kwargs):
         """ query: Specifies the location name to search for.
                    Example: Basel
             x: Latitude. Example: 47.476001
@@ -55,8 +66,6 @@ class TransportOpendata(object):
         """
 
         url = "http://transport.opendata.ch/v1/locations"
-
-        kwargs['query'] = query
 
         response = self.http_get(url, kwargs)
 
@@ -113,9 +122,14 @@ class TransportOpendata(object):
 
         self._bool_to_int(kwargs, 'isArrivalTime')
 
-        response = self.http_get(url, kwargs)
+        fields = {}
+        if 'fields' in kwargs:
+            fields = {'fields[]': kwargs['fields']}
+            kwargs.pop('fields')
 
-        return response
+        response = self.http_get(url, kwargs, **fields)
+
+        return response['connections']
 
     def get_stationboard(self, station=None, station_id=None, **kwargs):
         """station: Specifies the location of which a stationboard should
@@ -161,6 +175,9 @@ class TransportOpendata(object):
 
         return response
 
+    def strp_datetime(self, date_time):
+        return datetime.strptime(date_time[:-5], "%Y-%m-%dT%H:%M:%S")
+
     def _format_datetime(self, params, key, format_):
         if key in params:
             params[key] = params[key].strftime(format_)
@@ -169,10 +186,12 @@ class TransportOpendata(object):
         if key in params:
             params[key] = int(params[key])
 
-    def http_get(self, base_url, params):
+    def http_get(self, base_url, params, **kwargs):
         url = "%s?%s" % (base_url, urllib.urlencode(params))
+        for k, v in kwargs.items():
+            url += "&%s=%s" % (k, v)
         logging.getLogger(__name__).info(url)
         req = urllib2.Request(url=url)
         response = urllib2.urlopen(req, timeout=2).read()
-        # logging.getLogger(__name__).info(response)
+        logging.getLogger(__name__).debug(response)
         return json.loads(response)

@@ -42,7 +42,7 @@ class TravelTimePlugin(IEventProcessorPlugin, PluginMasterMixin):
         except Exception:
             return
 
-    def parse_location_and_travel_mode(self, location):
+    def parse_travel_mode(self, location):
         travel_mode = self.settings['default-travelmode']
         if 'TRANSIT' in location:
             travel_mode = 'TRANSIT'
@@ -60,7 +60,7 @@ class TravelTimePlugin(IEventProcessorPlugin, PluginMasterMixin):
         if event.location is None:
             return
 
-        location, travel_mode = parse_location_and_travel_mode(event.location)
+        location, travel_mode = self.parse_travel_mode(event.location)
 
         plugin = self.get_travel_plugin(travel_mode)
 

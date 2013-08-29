@@ -35,11 +35,15 @@ class AlarmManager(object):
 
             for event in events:
 
+                # if alarm_time already passed skip
                 if event.get_alarm_time() < now:
                     continue
 
+                # adjust alarm_time
                 self.process_event(event)
 
+                # if alarm_time is after next event collection stop scheduling
+                # events till next event collection
                 if event.get_alarm_time() > next_event_collection:
                     return
 
@@ -63,12 +67,13 @@ class AlarmManager(object):
         """
 
         for plugin in self.get_plugins("eventprocessor"):
-            plugin.process(event)
+            event = plugin.process(event)
         return event
 
-    def schedule_alarm(self, event):  # pragma: no cover
+    def schedule_alarm(self, event):
         """Shedules an alarm if alarm_time hasn't passed yet."""
 
+        # if alarm_time hasn't passed schedule alarm
         if event.get_alarm_time() > datetime.now():
             alarm_time = event.get_alarm_time()
             logging.info("Sheduling alarm for {0}.".format(alarm_time))
